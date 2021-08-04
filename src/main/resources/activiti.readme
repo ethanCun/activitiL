@@ -1,0 +1,36 @@
+
+1. 工作流：
+
+    解决负载的工作流程复杂性， 降低耦合度
+
+
+2. 工作引擎：
+
+
+3. 建模语言BPM： Business Process Management, 即业务流程管理
+
+    BPMN流程符号： 包含各种特许的任务，由指定的负责人来处理
+
+
+4. 使用activiti的默认方式来创建mysql的表：
+    在resources下面创建activiti.cfg.xml文件，并配置相关信息, 名称是固定的
+
+
+5. activciti入门
+    1. 定义流程: 按照bpmn使用流程工具，用流程符号将整个流程描述出来
+    2. 部署流程： 把画好的流程定义文件，加载到数据库中，生成表的数据
+    3. 启动流程： 使用java代码来操作数据库表中的内容
+
+    BPMN2.0是业务流程建模符号2.0的缩写, 是一套规范， Business Process Management Initiative
+
+
+    定义整个流程定义key， 添加任务负责人
+
+    bmpn导出流程图的步骤：
+        1. 将bpmn改为xml后缀， 右键点击xml文件diagrams生成；
+        2. 解决图片中文乱码问题： 修改idea fileEncoding全部为UTF-8; 在idea安装bin目录下idea64.exe.vmoptions最后面添加idea64.exe.vmoptions
+            ； 在计算机用户C:\Users\开发1\.IntelliJIdea2019.3\config bin目录下idea64.exe.vmoptions最后面添加idea64.exe.vmoptions
+        3. 重启idea， 重新画BPMN导出；
+        4. 右键原来的xml文件选择refactor， 将后缀改为bpmn;
+
+

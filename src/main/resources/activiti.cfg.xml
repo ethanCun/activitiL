@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--
+    配置信包含PrecessEngineConfiguration的定义、数据源定义、事务管理器等, 配置文件其实是一个spring的配置文件
+    使用标准引擎时， id需要写成固定的
+-->
+    <bean id="processEngineConfiguration"
+          class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">
+
+<!--        <property name="jdbcUrl" value="jdbc:mysql://39.108.150.99:3306/activiti?serverTimezone=UTC" />-->
+<!--        <property name="jdbcDriver" value="com.mysql.cj.jdbc.Driver" />-->
+<!--        <property name="jdbcUsername" value="activiti" />-->
+<!--        <property name="jdbcPassword" value="fbamSsPGnyYXFaCx" />-->
+
+<!--        引用连接池-->
+        <property name="dataSource" ref="dataSource" />
+
+<!--        生成表的策略  true: 表示数据库中存在相应的表 就直接使用 否则就重新创建 -->
+        <property name="databaseSchemaUpdate" value="true" />
+
+    </bean>
+
+<!--
+    使用连接池
+-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="url" value="jdbc:mysql://39.108.150.99:3306/activiti?serverTimezone=Asia/Shanghai&amp;characterEncoding=utf8&amp;useUnicode=true&amp;useSSL=false" />
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="username" value="activiti" />
+        <property name="password" value="Y2NkdD3DpCX2REnC" />
+        <property name="maxActive" value="3"/>
+    </bean>
+
+
+
+</beans>
