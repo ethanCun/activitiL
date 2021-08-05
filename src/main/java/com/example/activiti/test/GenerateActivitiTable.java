@@ -24,8 +24,8 @@ public class GenerateActivitiTable {
          * ACT_GE_*: 'GE'表示general。通用数据， 用于不同场景下，如存放资源文件。
          */
         //标准引擎
-//        ProcessEngine defaultProcessEngine = ProcessEngines.getDefaultProcessEngine();
-//        System.out.println(defaultProcessEngine);
+        ProcessEngine defaultProcessEngine = ProcessEngines.getDefaultProcessEngine();
+        System.out.println(defaultProcessEngine);
 
         //ProcessEngine下面有很多服务， 比如拿到流程定义和流程静态资源的服务
 //        RepositoryService repositoryService = defaultProcessEngine.getRepositoryService();
@@ -37,11 +37,8 @@ public class GenerateActivitiTable {
 //        System.out.println(processEngineConfigurationFromResource);
 
         //bean id都可以随便写
-        ProcessEngineConfiguration processEngineConfiguration1 = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml",
-                "processEngineConfiguration1");
-        System.out.println(processEngineConfiguration1);
-
-//        processEngineConfiguration1.getRuntimeService()
+//        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml",
+//                "processEngineConfiguration");
 
     }
 }
