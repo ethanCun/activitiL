@@ -13,8 +13,9 @@ public class MyUserDetailsService  implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 
+        //activiti中的security关键是要给角色： "ROLE_ACTIVITI_USER"
         UserDetails us = User.builder()
-                .username("czy")
+                .username(s)
                 .password(new BCryptPasswordEncoder().encode("123456"))
                 .authorities("admin", "ROLE_ACTIVITI_USER", "GROUP_ACTIVITY_TEAM")
                 .build();
