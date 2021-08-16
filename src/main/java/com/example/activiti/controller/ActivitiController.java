@@ -1,15 +1,17 @@
 package com.example.activiti.controller;
 
-import com.example.activiti.entity.User;
+import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.ProcessEngines;
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.repository.Deployment;
 import org.activiti.runtime.api.ProcessRuntime;
 import org.activiti.runtime.api.TaskRuntime;
-import org.activiti.runtime.api.model.ProcessInstance;
+import org.activiti.runtime.api.model.ProcessDefinition;
 import org.activiti.runtime.api.query.Page;
 import org.activiti.runtime.api.query.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * activiti7可以自动部署流程 ， 前提是在resources下有processes下面用来放置bpmn文件
@@ -25,16 +27,40 @@ public class ActivitiController {
     private TaskRuntime taskRuntime;
 
     @GetMapping(value = "/test1")
-    public void test1(){
+    public void test1() {
+
+        System.out.println("test1");
 
         //流程定义的分页对象
-        Page<ProcessInstance> processInstancePage = processRuntime.processInstances(Pageable.of(0, 10));
-        System.out.println("可用的流程总数： " + processInstancePage.getTotalItems());
+        Page<ProcessDefinition> processDefinitionPage = processRuntime.processDefinitions(Pageable.of(0, 10));
+        System.out.println("可用的流程总数： " + processDefinitionPage.getTotalItems());
 
-        for (ProcessInstance processInstance : processInstancePage.getContent()) {
+        for (ProcessDefinition processDefinition : processDefinitionPage.getContent()) {
 
-            System.out.println("流程定义内容:{}" + processInstance);
+            System.out.println("流程定义内容:{}" + processDefinition);
         }
 
+    }
+
+    @GetMapping(value = "/test2")
+    public String test2() {
+
+        ProcessEngine defaultProcessEngine = ProcessEngines.getDefaultProcessEngine();
+        RepositoryService repositoryService = defaultProcessEngine.getRepositoryService();
+        Deployment deployment = repositoryService.createDeployment()
+                .name("test1")
+                .addClasspathResource("gateway/parallelgateway.bpmn")
+                .deploy();
+
+        System.out.println(deployment.getName());
+        System.out.println(deployment.getKey());
+
+        return "test2";
+    }
+
+    @GetMapping(value = "/test3")
+    public String test3() {
+
+        return "test3";
     }
 }

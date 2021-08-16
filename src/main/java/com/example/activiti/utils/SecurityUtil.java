@@ -3,6 +3,7 @@ package com.example.activiti.utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -22,26 +23,22 @@ import java.util.Collection;
 /**
  * 因为activiti默认继承了springsecurity， 所以需要配置一下相关的信息
  */
-@Slf4j
-@Component
+@Configuration
 public class SecurityUtil extends WebSecurityConfigurerAdapter {
 
     //获取springsecurity里面的用户信息
     @Autowired
-    private UserDetailsService userDetailsService;
+    private MyUserDetailsService userDetailsService;
 
-    public void loginInAs(String username){
+    public void logInAs(String username){
 
-        UserDetails user = userDetailsService.loadUserByUsername(username);
+        UserDetails user = this.userDetailsService.loadUserByUsername(username);
 
-        if (user == null) {
-            throw new RuntimeException("用户不存在");
+        if (user == null){
+            throw new IllegalStateException("User " + username + " doesn't exist, please provide a valid user");
         }
 
-        log.info("当前用户名： " + username);
-
         SecurityContextHolder.setContext(new SecurityContextImpl(new Authentication() {
-
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
                 return user.getAuthorities();
@@ -68,7 +65,7 @@ public class SecurityUtil extends WebSecurityConfigurerAdapter {
             }
 
             @Override
-            public void setAuthenticated(boolean b) throws IllegalArgumentException {
+            public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
 
             }
 
@@ -81,17 +78,13 @@ public class SecurityUtil extends WebSecurityConfigurerAdapter {
         org.activiti.engine.impl.identity.Authentication.setAuthenticatedUserId(username);
     }
 
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//
-//        http.csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers()
-//    }
-
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        super.configure(web);
+    protected void configure(HttpSecurity http) throws Exception {
+
+        //自定义配置
+        http.formLogin()
+                .and().authorizeRequests().antMatchers("/", "/test1", "/test3").permitAll() //设置不需要认证的url路径
+                .anyRequest().authenticated();
     }
 
     //配置用户权限信息
@@ -101,6 +94,7 @@ public class SecurityUtil extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(mypasswordEncoder());
     }
 
+    @Bean
     public PasswordEncoder mypasswordEncoder(){
         return new BCryptPasswordEncoder();
     }

@@ -5,6 +5,7 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.runtime.api.ProcessRuntime;
+import org.activiti.runtime.api.model.ProcessDefinition;
 import org.activiti.runtime.api.model.ProcessInstance;
 import org.activiti.runtime.api.query.Page;
 import org.activiti.runtime.api.query.Pageable;
@@ -34,12 +35,11 @@ public class SpringbootactivitiTest {
     @Test
     public void test1(){
 
+        securityUtil.logInAs("salaboy");
+
         //使用账户登录
-        securityUtil.loginInAs("lili");
-
-        Page<ProcessInstance> processInstancePage = processRuntime.processInstances(Pageable.of(1, 10));
-
-        System.out.println(processInstancePage.getTotalItems());
+        Page<ProcessDefinition> processDefinitionPage = processRuntime.processDefinitions(Pageable.of(0, 10));
+        System.out.println(processDefinitionPage.getTotalItems());
     }
 
     @Test
