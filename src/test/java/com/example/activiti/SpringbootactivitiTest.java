@@ -35,7 +35,7 @@ public class SpringbootactivitiTest {
     @Test
     public void test1(){
 
-        securityUtil.logInAs("salaboy");
+        securityUtil.logInAs("czy");
 
         //使用账户登录
         Page<ProcessDefinition> processDefinitionPage = processRuntime.processDefinitions(Pageable.of(0, 10));

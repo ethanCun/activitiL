@@ -14,8 +14,8 @@ public class MyUserDetailsService  implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 
         UserDetails us = User.builder()
-                .username("salaboy")
-                .password(new BCryptPasswordEncoder().encode("password"))
+                .username("czy")
+                .password(new BCryptPasswordEncoder().encode("123456"))
                 .authorities("admin", "ROLE_ACTIVITI_USER", "GROUP_ACTIVITY_TEAM")
                 .build();
 
